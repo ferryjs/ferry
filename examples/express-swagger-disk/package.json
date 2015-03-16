@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "sails-disk": "^0.10.7",
+    "ferry-swagger": "../../../ferry-swagger/",
+    "ferry-express": "../../../ferry-express/"
+  }
+}

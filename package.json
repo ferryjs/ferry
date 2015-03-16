@@ -1,0 +1,25 @@
+{
+  "name": "ferry",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/Ferry.js",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "test": "mocha",
+    "build": "babel src --out-dir lib --source-maps",
+    "watch": "babel src --out-dir lib --watch --source-maps",
+    "prepublish": "npm run build"
+  },
+  "devDependencies": {
+    "babel": "^4.7.12",
+    "mocha": "^2.2.1"
+  },
+  "dependencies": {
+    "finalhandler": "^0.3.3",
+    "inflection": "^1.6.0",
+    "js-yaml": "^3.2.7",
+    "router": "^1.0.0",
+    "waterline": "^0.10.18"
+  }
+}
