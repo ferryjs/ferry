@@ -9,7 +9,8 @@
     "test": "mocha",
     "build": "babel src --out-dir lib --source-maps",
     "watch": "babel src --out-dir lib --watch --source-maps",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "postinstall": "npm run build"
   },
   "devDependencies": {
     "babel": "^4.7.12",
