@@ -8,8 +8,8 @@ class Adapter {
     this.filename = specification;
     this.load();
 
-    this.basePath = '/api';
-    this.routes = {};
+    this.basePath = this.specification.basePath;
+    this.routes = this.specification.routes;
   }
 
   load() {

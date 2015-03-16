@@ -67,7 +67,7 @@ class Engine {
 
       for(let method in this.specification.routes[path]) {
 
-        let action = this.specification.routes[path][method].operationId.split(':')[1].toLowerCase();
+        let action = this.specification.routes[path][method].action.toLowerCase();
 
         router[method](path, this.route(action));
       }
