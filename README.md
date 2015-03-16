@@ -1,6 +1,6 @@
 # Ferry
 
-Ferry is (yet another) REST API framework powered by Express and Waterline ORM.
+Ferry is (yet another) REST API framework.
 
 ## Installation
 
