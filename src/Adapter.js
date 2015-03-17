@@ -7,7 +7,6 @@ class Adapter {
   constructor(specification, cwd) {
     this.filename = specification;
     this.load();
-
     this.convert();
   }
 

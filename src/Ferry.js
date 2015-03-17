@@ -7,7 +7,6 @@ import Adapter from './Adapter';
 
 class Ferry {
   constructor(config) {
-
     if (typeof config.engine !== 'undefined' ) {
       Engine = config.engine;
     }
@@ -29,14 +28,12 @@ class Ferry {
       this.specification,
       this.database
     );
-
   }
 
   start(port = 3000) {
     let self = this;
 
     this.database.initialize(function(error, model){
-
       if (error) {
         console.error(error);
       }
@@ -45,7 +42,6 @@ class Ferry {
         self.engine.connections = model.connections;
         self.engine.start(port);
       }
-
     });
   }
 }

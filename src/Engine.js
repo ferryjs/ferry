@@ -12,7 +12,6 @@ class Engine {
   }
 
   route(resource, type) {
-
     let collection = this.collections[resource.toLowerCase()];
 
     switch (type) {
@@ -80,12 +79,10 @@ class Engine {
         break;
 
       default:
-
         // Look for overriden handler actions
 
         break;
     }
-
   }
 
   initialize() {
@@ -111,7 +108,6 @@ class Engine {
   }
 
   start(port = 3000) {
-
     this.initialize();
 
     let self = this;
