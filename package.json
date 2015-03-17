@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "lib/Ferry.js",
-  "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "scripts": {
     "test": "mocha",
     "build": "babel src --out-dir lib --source-maps",
