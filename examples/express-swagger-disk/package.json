@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "ferry": "ferryjs/ferry#development",
     "sails-disk": "^0.10.7",
     "ferry-swagger": "ferryjs/ferry-swagger#development",
     "ferry-express": "ferryjs/ferry-express#development"
