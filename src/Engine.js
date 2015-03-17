@@ -9,52 +9,80 @@ class Engine {
     this.name = 'Default';
     this.specification = specification;
     this.app = new Router();
-
-    this.initialize();
   }
 
-  route(type, model) {
+  route(resource, type) {
+
+    let collection = this.collections[resource.toLowerCase()];
 
     switch (type) {
 
       case 'index':
         return (req, res)=> {
-          res.statusCode = 200
-          res.setHeader('Content-Type', 'application/json; charset=utf-8')
-          res.end('Index');
+          collection.find().exec(function(err, models) {
+            if(err) return res.json(JSON.stringify({ err: err }), 500);
+
+            res.statusCode = 200
+            res.setHeader('Content-Type', 'application/json; charset=utf-8')
+            res.end(JSON.stringify(models));
+          });
         };
         break;
 
-      case 'find':
+      case 'view':
         return (req, res)=> {
-          res.statusCode = 200
-          res.setHeader('Content-Type', 'application/json; charset=utf-8')
-          res.end('Find');
+          collection.findOne({ id: req.params.id }, function(err, model) {
+            if(err) return res.end(JSON.stringify({ err: err }), 500);
+
+            res.statusCode = 200
+            res.setHeader('Content-Type', 'application/json; charset=utf-8')
+            res.end(JSON.stringify(model));
+          });
         };
         break;
 
       case 'create':
         return (req, res)=> {
-          res.statusCode = 200
-          res.setHeader('Content-Type', 'application/json; charset=utf-8')
-          res.end('Create');
+          collection.create(req.body, function(err, model) {
+            if(err) return res.end(JSON.stringify({ err: err }), 500);
+
+            res.statusCode = 200
+            res.setHeader('Content-Type', 'application/json; charset=utf-8')
+            res.end(JSON.stringify(model));
+          });
         };
         break;
 
       case 'update':
         return (req, res)=> {
-          res.statusCode = 200
-          res.setHeader('Content-Type', 'application/json; charset=utf-8')
-          res.end('Update');
+          // Don't pass ID to update
+          delete req.body.id;
+
+          collection.update({ id: req.params.id }, req.body, function(err, model) {
+            if(err) return res.end(JSON.stringify({ err: err }), 500);
+            res.statusCode = 200
+            res.setHeader('Content-Type', 'application/json; charset=utf-8')
+            res.end(JSON.stringify(model));
+          });
         };
         break;
 
       case 'delete':
         return (req, res)=> {
-          res.statusCode = 200
-          res.setHeader('Content-Type', 'application/json; charset=utf-8')
-          res.end('Delete');
+          collection.destroy({ id: req.params.id }, function(err) {
+            if(err) return res.end(JSON.stringify({ err: err }), 500);
+
+            res.statusCode = 200
+            res.setHeader('Content-Type', 'application/json; charset=utf-8')
+            res.end('{"status": "ok"}');
+          });
         };
+        break;
+
+      default:
+
+        // Look for overriden handler actions
+
         break;
     }
 
@@ -63,14 +91,17 @@ class Engine {
   initialize() {
     let router = new Router();
 
-    for(let path in this.specification.routes) {
+    for(let resource in this.specification.resources) {
+      let resourceRouter = new Router();
+      let basePath = this.specification.resources[resource].basePath;
 
-      for(let method in this.specification.routes[path]) {
+      for(let action in this.specification.resources[resource].actions) {
+        let method = this.specification.resources[resource].actions[action].method;
+        let route = this.specification.resources[resource].actions[action].route;
 
-        let action = this.specification.routes[path][method].action.toLowerCase();
-
-        router[method](path, this.route(action));
+        resourceRouter[method](route, this.route(resource, action));
       }
+      router.use(basePath, resourceRouter);
     };
 
     this.app.use(
@@ -80,6 +111,9 @@ class Engine {
   }
 
   start(port = 3000) {
+
+    this.initialize();
+
     let self = this;
     http.createServer(function(req, res) {
       self.app(req, res, finalHandler(req, res))

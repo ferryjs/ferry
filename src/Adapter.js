@@ -8,13 +8,18 @@ class Adapter {
     this.filename = specification;
     this.load();
 
-    this.basePath = this.specification.basePath;
-    this.routes = this.specification.routes;
+    this.convert();
   }
 
   load() {
     this.raw = fs.readFileSync(this.filename, 'UTF-8');
     this.specification = JSON.parse(this.raw);
+  }
+
+  convert() {
+    // Implement this in your adapter
+    this.basePath = this.specification.basePath;
+    this.resources = this.specification.resources;
   }
 };
 

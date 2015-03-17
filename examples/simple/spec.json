@@ -1,0 +1,37 @@
+{
+  "name": "Pets API",
+  "basePath": "/api/v1",
+  "resources": {
+    "Pet": {
+      "basePath": "/pets",
+      "actions": {
+        "index": {
+          "method": "get",
+          "route": "/"
+        },
+        "view": {
+          "method": "get",
+          "route": "/:id"
+        },
+        "create": {
+          "method": "post",
+          "route": "/"
+        },
+        "update": {
+          "method": "put",
+          "route": "/:id"
+        },
+        "delete": {
+          "method": "delete",
+          "route": "/:id"
+        }
+      },
+      "schema": {
+        "attributes": {
+          "first_name": "string",
+          "last_name": "string"
+        }
+      }
+    }
+  }
+}

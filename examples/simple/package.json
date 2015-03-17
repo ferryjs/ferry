@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "ferry": "../../",
+    "sails-disk": "^0.10.7"
+  }
+}

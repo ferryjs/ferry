@@ -2,14 +2,11 @@
 
 import path from 'path';
 import Orm from './Orm';
-import DefaultEngine from './Engine';
-import DefaultAdapter from './Adapter';
+import Engine from './Engine';
+import Adapter from './Adapter';
 
 class Ferry {
   constructor(config) {
-
-    let Engine =  DefaultEngine;
-    let Adapter = DefaultAdapter;
 
     if (typeof config.engine !== 'undefined' ) {
       Engine = config.engine;
@@ -25,10 +22,10 @@ class Ferry {
     ));
 
     // Instantiate a new database
-    this.database = new Orm(config.database || {});
+    this.database = new Orm(config.database || {}, this.specification);
 
     // Create a new server
-    this.server = new Engine(
+    this.engine = new Engine(
       this.specification,
       this.database
     );
@@ -41,16 +38,20 @@ class Ferry {
     this.database.initialize(function(error, model){
 
       if (error) {
-        console.error('Could not connect to databases');
+        console.error(error);
       }
       else {
-        self.server.app.collections = model.collections;
-        self.server.app.connections = model.connections;
-        self.server.start(port);
+        self.engine.collections = model.collections;
+        self.engine.connections = model.connections;
+        self.engine.start(port);
       }
 
     });
   }
 }
+
+Ferry.Orm = Orm;
+Ferry.Adapter = Adapter;
+Ferry.Engine = Engine;
 
 export default Ferry;
