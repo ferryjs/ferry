@@ -3,28 +3,28 @@
 import path from 'path';
 import Storage from './Storage';
 import Router from './Router';
-import Adapter from './Adapter';
+import Specification from './Specification';
 
 class Ferry {
   constructor(config) {
-    if (typeof config.engine !== 'undefined' ) {
-      Engine = config.engine;
+    if (typeof config.router !== 'undefined' ) {
+      Router = config.router;
     }
 
-    if (typeof config.adapter !== 'undefined' ) {
-      Adapter = config.adapter;
+    if (typeof config.source !== 'undefined' ) {
+      config.specSource = config.source;
     }
 
-    this.specification = new Adapter(path.join(
+    this.specification = new Specification(path.join(
       path.dirname(module.parent.filename),
-      config.specification
+      config.source
     ));
 
     // Instantiate a new database
     this.database = new Storage(config.database || {}, this.specification);
 
     // Create a new server
-    this.engine = new Router(
+    this.router = new Router(
       this.specification,
       this.database
     );
@@ -38,16 +38,16 @@ class Ferry {
         console.error(error);
       }
       else {
-        self.engine.collections = model.collections;
-        self.engine.connections = model.connections;
-        self.engine.start(port);
+        self.router.collections = model.collections;
+        self.router.connections = model.connections;
+        self.router.start(port);
       }
     });
   }
 }
 
 Ferry.Storage = Storage;
-Ferry.Adapter = Adapter;
+Ferry.Specification = Specification;
 Ferry.Router = Router;
 
 export default Ferry;

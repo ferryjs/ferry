@@ -3,7 +3,7 @@
 import Waterline from 'waterline';
 
 class Storage {
-  constructor(config, specification) {
+  constructor(config = {}, specification = {}) {
     this.orm = new Waterline();
     this.config = config;
     this.specification = specification;
