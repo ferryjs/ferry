@@ -2,7 +2,7 @@
 
 import Waterline from 'waterline';
 
-class Orm {
+class Storage {
   constructor(config, specification) {
     this.orm = new Waterline();
     this.config = config;
@@ -24,4 +24,4 @@ class Orm {
   }
 };
 
-export default Orm;
+export default Storage;

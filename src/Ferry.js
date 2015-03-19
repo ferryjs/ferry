@@ -1,7 +1,7 @@
 'use strict';
 
 import path from 'path';
-import Orm from './Orm';
+import Storage from './Storage';
 import Router from './Router';
 import Adapter from './Adapter';
 
@@ -21,7 +21,7 @@ class Ferry {
     ));
 
     // Instantiate a new database
-    this.database = new Orm(config.database || {}, this.specification);
+    this.database = new Storage(config.database || {}, this.specification);
 
     // Create a new server
     this.engine = new Router(
@@ -46,7 +46,7 @@ class Ferry {
   }
 }
 
-Ferry.Orm = Orm;
+Ferry.Storage = Storage;
 Ferry.Adapter = Adapter;
 Ferry.Router = Router;
 
