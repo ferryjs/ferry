@@ -2,7 +2,7 @@
 
 import path from 'path';
 import Orm from './Orm';
-import Engine from './Engine';
+import Router from './Router';
 import Adapter from './Adapter';
 
 class Ferry {
@@ -24,7 +24,7 @@ class Ferry {
     this.database = new Orm(config.database || {}, this.specification);
 
     // Create a new server
-    this.engine = new Engine(
+    this.engine = new Router(
       this.specification,
       this.database
     );
@@ -48,6 +48,6 @@ class Ferry {
 
 Ferry.Orm = Orm;
 Ferry.Adapter = Adapter;
-Ferry.Engine = Engine;
+Ferry.Router = Router;
 
 export default Ferry;
