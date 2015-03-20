@@ -7,14 +7,19 @@ import Specification from './Specification';
 
 class Ferry {
   constructor(config) {
+
+    if (typeof config === 'undefined') {
+      throw new Error('Invalid configuration');
+    }
+
+    if (typeof config.source === 'undefined') {
+      throw new Error('Specification source missing');
+    }
+
     if (typeof config.router !== 'undefined' ) {
       Router = config.router;
     }
-
-    if (typeof config.source !== 'undefined' ) {
-      config.specSource = config.source;
-    }
-
+    
     this.specification = new Specification(path.join(
       path.dirname(module.parent.filename),
       config.source
