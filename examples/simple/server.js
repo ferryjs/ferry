@@ -1,13 +1,12 @@
 'use strict';
 
-var diskAdapter = require('sails-disk');
-var Ferry = require('../../lib/Ferry');
+var Ferry = require('ferry');
 
 var server = new Ferry({
-  specification: './spec.json',
+  source: './spec.json',
   database: {
     adapters: {
-      default: diskAdapter
+      default: require('sails-disk')
     },
     connections: {
       default: {
@@ -17,4 +16,4 @@ var server = new Ferry({
   }
 });
 
-server.start(3333);
+server.start(process.env.PORT || 3333);
