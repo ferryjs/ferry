@@ -16,6 +16,10 @@ class Ferry {
       throw new Error('Specification source missing');
     }
 
+    if (typeof config.specification !== 'undefined' ) {
+      Specification = config.specification;
+    }
+
     if (typeof config.router !== 'undefined' ) {
       Router = config.router;
     }
