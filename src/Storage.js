@@ -11,6 +11,7 @@ class Storage {
 
   initialize(callback) {
     for(let resource in this.specification.resources) {
+      this.specification.resources[resource].schema = this.specification.resources[resource].schema || {};
       this.specification.resources[resource].schema.identity = resource.toLowerCase();
       this.specification.resources[resource].schema.connection = 'default';
 
