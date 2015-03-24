@@ -1,9 +1,10 @@
 'use strict';
 
-import path from 'path';
-import Storage from './Storage';
 import Router from './Router';
 import Specification from './Specification';
+import Storage from './Storage';
+
+import path from 'path';
 
 class Ferry {
   constructor(config) {
@@ -12,22 +13,15 @@ class Ferry {
       throw new Error('Invalid configuration');
     }
 
-    if (typeof config.source === 'undefined') {
-      throw new Error('Specification source missing');
-    }
-
-    if (typeof config.specification !== 'undefined' ) {
-      Specification = config.specification;
+    if (!(config.specification instanceof Specification)) {
+      throw new Error('Specification is required');
+    } else {
+      this.specification = config.specification;
     }
 
     if (typeof config.router !== 'undefined' ) {
       Router = config.router;
     }
-    
-    this.specification = new Specification(path.join(
-      path.dirname(module.parent.filename),
-      config.source
-    ));
 
     // Instantiate a new database
     this.database = new Storage(config.database || {}, this.specification);
@@ -55,8 +49,8 @@ class Ferry {
   }
 }
 
-Ferry.Storage = Storage;
-Ferry.Specification = Specification;
 Ferry.Router = Router;
+Ferry.Specification = Specification;
+Ferry.Storage = Storage;
 
 export default Ferry;
