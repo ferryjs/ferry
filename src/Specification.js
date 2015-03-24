@@ -16,8 +16,8 @@ class Specification {
   }
 
   convert() {
-    // Implement this in your adapter
     this.basePath = this.source.basePath;
+    this.routes = this.source.routes;
     this.resources = this.source.resources;
   }
 };
