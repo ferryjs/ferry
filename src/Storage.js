@@ -2,8 +2,8 @@
 
 import Waterline from 'waterline';
 
-class Orm {
-  constructor(config, specification) {
+class Storage {
+  constructor(config = {}, specification = {}) {
     this.orm = new Waterline();
     this.config = config;
     this.specification = specification;
@@ -11,6 +11,7 @@ class Orm {
 
   initialize(callback) {
     for(let resource in this.specification.resources) {
+      this.specification.resources[resource].schema = this.specification.resources[resource].schema || {};
       this.specification.resources[resource].schema.identity = resource.toLowerCase();
       this.specification.resources[resource].schema.connection = 'default';
 
@@ -24,4 +25,4 @@ class Orm {
   }
 };
 
-export default Orm;
+export default Storage;

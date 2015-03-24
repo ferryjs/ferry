@@ -1,30 +1,39 @@
 'use strict';
 
 import path from 'path';
-import Orm from './Orm';
-import Engine from './Engine';
-import Adapter from './Adapter';
+import Storage from './Storage';
+import Router from './Router';
+import Specification from './Specification';
 
 class Ferry {
   constructor(config) {
-    if (typeof config.engine !== 'undefined' ) {
-      Engine = config.engine;
+
+    if (typeof config === 'undefined') {
+      throw new Error('Invalid configuration');
     }
 
-    if (typeof config.adapter !== 'undefined' ) {
-      Adapter = config.adapter;
+    if (typeof config.source === 'undefined') {
+      throw new Error('Specification source missing');
     }
 
-    this.specification = new Adapter(path.join(
+    if (typeof config.specification !== 'undefined' ) {
+      Specification = config.specification;
+    }
+
+    if (typeof config.router !== 'undefined' ) {
+      Router = config.router;
+    }
+    
+    this.specification = new Specification(path.join(
       path.dirname(module.parent.filename),
-      config.specification
+      config.source
     ));
 
     // Instantiate a new database
-    this.database = new Orm(config.database || {}, this.specification);
+    this.database = new Storage(config.database || {}, this.specification);
 
     // Create a new server
-    this.engine = new Engine(
+    this.router = new Router(
       this.specification,
       this.database
     );
@@ -38,16 +47,16 @@ class Ferry {
         console.error(error);
       }
       else {
-        self.engine.collections = model.collections;
-        self.engine.connections = model.connections;
-        self.engine.start(port);
+        self.router.collections = model.collections;
+        self.router.connections = model.connections;
+        self.router.start(port);
       }
     });
   }
 }
 
-Ferry.Orm = Orm;
-Ferry.Adapter = Adapter;
-Ferry.Engine = Engine;
+Ferry.Storage = Storage;
+Ferry.Specification = Specification;
+Ferry.Router = Router;
 
 export default Ferry;

@@ -1,14 +1,14 @@
 'use strict';
 
 import http from 'http';
-import Router from 'router';
+import defaultRouter from 'router';
 import finalHandler from 'finalhandler';
 
-class Engine {
+class Router {
   constructor(specification, database) {
     this.name = 'Default';
     this.specification = specification;
-    this.app = new Router();
+    this.app = new defaultRouter();
   }
 
   route(resource, type) {
@@ -86,10 +86,10 @@ class Engine {
   }
 
   initialize() {
-    let router = new Router();
+    let router = new defaultRouter();
 
     for(let resource in this.specification.resources) {
-      let resourceRouter = new Router();
+      let resourceRouter = new defaultRouter();
       let basePath = this.specification.resources[resource].basePath;
 
       for(let action in this.specification.resources[resource].actions) {
@@ -117,4 +117,4 @@ class Engine {
   }
 };
 
-export default Engine;
+export default Router;
