@@ -28,19 +28,17 @@ class Ferry {
       this.storage.Ferry = this;
     }
 
-    if (typeof config.router !== 'undefined' ) {
-      Router = config.router;
+    if (!(config.router instanceof Router)) {
+      throw new Error('Router is required');
+    } else {
+      this.router = config.router;
+      this.router.Ferry = this;
+      this.router.initialize(this.specification.basePath, this.specification.routes);
     }
-
-    // Create a new server
-    this.router = new Router(
-      this.specification,
-      this.database
-    );
 
   }
 
-  start(port = 3000) {
+  start(port = 3000, callback) {
 
     let self = this;
 
@@ -50,10 +48,7 @@ class Ferry {
         console.error(error);
       }
       else {
-        // @todo Remove these from router.
-        self.router.collections = self.storage.models;
-        self.router.connections = self.storage.connections;
-        self.router.start(port);
+        self.router.start(port, callback);
       }
 
     });
