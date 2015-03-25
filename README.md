@@ -1,5 +1,7 @@
 # Ferry
 
+[![wercker status](https://app.wercker.com/status/db691bd039bb0c0640e6e934d47d7dec/s "wercker status")](https://app.wercker.com/project/bykey/db691bd039bb0c0640e6e934d47d7dec)
+
 Ferry is (yet another) REST API framework.
 
 ## Installation

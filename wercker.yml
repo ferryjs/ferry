@@ -1,0 +1,10 @@
+box: wercker/ubuntu12.04-nodejs0.10
+build:
+  steps:
+    - script:
+        name: Upgrade npm
+        code: sudo npm install npm -g
+    - npm-install
+    - script:
+        name: Run tests
+        code: npm test
