@@ -18,6 +18,7 @@ Adapters are Ferry modules that provide the interface between an engine and the 
 
 ### Router
 
+* [Router](https://github.com/pillarjs/router) ([adapter](https://github.com/ferryjs/ferry-router-basic))
 * [Express](http://expressjs.com) ([adapter](https://github.com/ferryjs/ferry-express))
 * [Hapi](http://hapijs.com) ([adapter](https://github.com/ferryjs/ferry-hapi))
 * [Koa](http://koajs.com) ([adapter](https://github.com/ferryjs/ferry-koa))
