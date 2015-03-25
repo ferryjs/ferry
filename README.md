@@ -5,38 +5,37 @@
 Ferry is (yet another) REST API framework.
 
 
-## Installation
-
-* `npm install` - This will pull down dependencies and compile source.
-
-
 ## Usage
 
-See [example implementations](https://github.com/ferryjs/ferry-examples).
+Typically, Ferry is required as a dependency when creating a server implementation. See [example implementations](https://github.com/ferryjs/ferry-examples).
 
 
-## Compatibility
+## Engines
 
-### Router Adapters
+Engines power Ferry; they are third-party modules that provide various features. In order to create a functional API, one engine of each type is required.
 
-* [Express](http://expressjs.com) [adapter](https://github.com/ferryjs/ferry-express)
-* [Hapi](http://hapijs.com) [adapter](https://github.com/ferryjs/ferry-hapi)
-* [Koa](http://koajs.com) [adapter](https://github.com/ferryjs/ferry-koa)
+Adapters are Ferry modules that provide the interface between an engine and the Ferry framework.
 
-### Specification Adapters
+### Router
 
-* [Swagger](http://swagger.io) [adapter](https://github.com/ferryjs/ferry-swagger)
-* [Blueprint](https://apiblueprint.org) [adapter](https://github.com/ferryjs/ferry-api-blueprint)
-* [RAML](http://raml.org) [adapter](https://github.com/ferryjs/ferry-raml)
+* [Express](http://expressjs.com) ([adapter](https://github.com/ferryjs/ferry-express))
+* [Hapi](http://hapijs.com) ([adapter](https://github.com/ferryjs/ferry-hapi))
+* [Koa](http://koajs.com) ([adapter](https://github.com/ferryjs/ferry-koa))
 
-### Storage Adapters
+### Specification
 
-* [Waterline](https://github.com/balderdashy/waterline) [adapter](https://github.com/ferryjs/ferry-waterline)
+* [Swagger](http://swagger.io) ([adapter](https://github.com/ferryjs/ferry-swagger))
+* [RAML](http://raml.org) ([adapter](https://github.com/ferryjs/ferry-raml))
+* [API Blueprint](https://apiblueprint.org) ([adapter](https://github.com/ferryjs/ferry-api-blueprint))
+
+### Storage
+
+* [Waterline](https://github.com/balderdashy/waterline) ([adapter](https://github.com/ferryjs/ferry-waterline))
 
 
 ## Contributing
 
-### Local Development
+### Development
 
 An sorta-easy way to work on the Ferry suite of packages is to clone all of the desired repositories into a top-level `ferryjs` directory, and then use the [symlink](https://www.npmjs.com/package/symlink) package to automatically `npm link` the local repositories.
 
@@ -50,4 +49,4 @@ An sorta-easy way to work on the Ferry suite of packages is to clone all of the 
 
 If the `symlink` and/or `npm link` steps error out, just re-run them.
 
-The last two steps should be unnecessary but are required at this time; hopefully once these packages are published on NPM they will become obsolete.
+The last two steps should be unnecessary, but are required at this time; hopefully once these packages are published on NPM they will become obsolete.
