@@ -1,120 +1,25 @@
 'use strict';
 
-import http from 'http';
-import defaultRouter from 'router';
-import finalHandler from 'finalhandler';
-
 class Router {
-  constructor(specification, database) {
-    this.name = 'Default';
-    this.specification = specification;
-    this.app = new defaultRouter();
+
+  constructor(config = {}) {
+    this.name = null;
+    this.config = config;
+    this.app = null;
   }
 
-  route(resource, type) {
-    let collection = this.collections[resource.toLowerCase()];
-
-    switch (type) {
-
-      case 'index':
-        return (req, res)=> {
-          collection.find().exec(function(err, models) {
-            if(err) return res.json(JSON.stringify({ err: err }), 500);
-
-            res.statusCode = 200
-            res.setHeader('Content-Type', 'application/json; charset=utf-8')
-            res.end(JSON.stringify(models));
-          });
-        };
-        break;
-
-      case 'view':
-        return (req, res)=> {
-          collection.findOne({ id: req.params.id }, function(err, model) {
-            if(err) return res.end(JSON.stringify({ err: err }), 500);
-
-            res.statusCode = 200
-            res.setHeader('Content-Type', 'application/json; charset=utf-8')
-            res.end(JSON.stringify(model));
-          });
-        };
-        break;
-
-      case 'create':
-        return (req, res)=> {
-          collection.create(req.body, function(err, model) {
-            if(err) return res.end(JSON.stringify({ err: err }), 500);
-
-            res.statusCode = 200
-            res.setHeader('Content-Type', 'application/json; charset=utf-8')
-            res.end(JSON.stringify(model));
-          });
-        };
-        break;
-
-      case 'update':
-        return (req, res)=> {
-          // Don't pass ID to update
-          delete req.body.id;
-
-          collection.update({ id: req.params.id }, req.body, function(err, model) {
-            if(err) return res.end(JSON.stringify({ err: err }), 500);
-            res.statusCode = 200
-            res.setHeader('Content-Type', 'application/json; charset=utf-8')
-            res.end(JSON.stringify(model));
-          });
-        };
-        break;
-
-      case 'delete':
-        return (req, res)=> {
-          collection.destroy({ id: req.params.id }, function(err) {
-            if(err) return res.end(JSON.stringify({ err: err }), 500);
-
-            res.statusCode = 200
-            res.setHeader('Content-Type', 'application/json; charset=utf-8')
-            res.end('{"status": "ok"}');
-          });
-        };
-        break;
-
-      default:
-        // Look for overriden handler actions
-
-        break;
-    }
+  route(action, resource) {
+    throw new Error('Router adapters must implement route(action, resource)');
   }
 
-  initialize() {
-    let router = new defaultRouter();
-
-    for(let resource in this.specification.resources) {
-      let resourceRouter = new defaultRouter();
-      let basePath = this.specification.resources[resource].basePath;
-
-      for(let action in this.specification.resources[resource].actions) {
-        let method = this.specification.resources[resource].actions[action].method;
-        let route = this.specification.resources[resource].actions[action].route;
-
-        resourceRouter[method](route, this.route(resource, action));
-      }
-      router.use(basePath, resourceRouter);
-    };
-
-    this.app.use(
-      this.specification.basePath,
-      router
-    );
+  initialize(basePath, routes, callback) {
+    throw new Error('Router adapters must implement initialize(basePath, routes, callback)');
   }
 
-  start(port = 3000) {
-    this.initialize();
-
-    let self = this;
-    http.createServer(function(req, res) {
-      self.app(req, res, finalHandler(req, res))
-    }).listen(port);
+  start(port = 3000, callback) {
+    throw new Error('Router adapters must implement start(port, callback)');
   }
+
 };
 
 export default Router;

@@ -1,62 +1,64 @@
 'use strict';
 
 import path from 'path';
-import Storage from './Storage';
+
 import Router from './Router';
 import Specification from './Specification';
+import Storage from './Storage';
 
 class Ferry {
+
   constructor(config) {
 
     if (typeof config === 'undefined') {
-      throw new Error('Invalid configuration');
+      throw new Error('Configuration is required');
     }
 
-    if (typeof config.source === 'undefined') {
-      throw new Error('Specification source missing');
+    if (!(config.specification instanceof Specification)) {
+      throw new Error('Specification is required');
     }
 
-    if (typeof config.specification !== 'undefined' ) {
-      Specification = config.specification;
+    if (!(config.storage instanceof Storage)) {
+      throw new Error('Storage is required');
     }
 
-    if (typeof config.router !== 'undefined' ) {
-      Router = config.router;
+    if (!(config.router instanceof Router)) {
+      throw new Error('Router is required');
     }
-    
-    this.specification = new Specification(path.join(
-      path.dirname(module.parent.filename),
-      config.source
-    ));
 
-    // Instantiate a new database
-    this.database = new Storage(config.database || {}, this.specification);
+    this.specification = config.specification;
+    this.specification.ferry = this;
 
-    // Create a new server
-    this.router = new Router(
-      this.specification,
-      this.database
-    );
+    this.storage = config.storage;
+    this.storage.ferry = this;
+
+    this.router = config.router;
+    this.router.ferry = this;
+    this.router.initialize(this.specification.basePath, this.specification.routes);
+
   }
 
-  start(port = 3000) {
+  start(port = 3000, callback) {
+
     let self = this;
 
-    this.database.initialize(function(error, model){
+    this.storage.initialize(this.specification.resources, function(error) {
+
       if (error) {
         console.error(error);
       }
       else {
-        self.router.collections = model.collections;
-        self.router.connections = model.connections;
-        self.router.start(port);
+        self.router.start(port, callback);
       }
+
     });
+
   }
+
 }
 
-Ferry.Storage = Storage;
-Ferry.Specification = Specification;
 Ferry.Router = Router;
+Ferry.Specification = Specification;
+Ferry.Storage = Storage;
 
 export default Ferry;

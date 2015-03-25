@@ -1,28 +1,18 @@
 'use strict';
 
-import Waterline from 'waterline';
-
 class Storage {
-  constructor(config = {}, specification = {}) {
-    this.orm = new Waterline();
+
+  constructor(config = {}) {
     this.config = config;
-    this.specification = specification;
+    this.engine = null;
+    this.models = {};
+    this.connections = {};
   }
 
-  initialize(callback) {
-    for(let resource in this.specification.resources) {
-      this.specification.resources[resource].schema = this.specification.resources[resource].schema || {};
-      this.specification.resources[resource].schema.identity = resource.toLowerCase();
-      this.specification.resources[resource].schema.connection = 'default';
-
-      let schema = Waterline.Collection.extend(this.specification.resources[resource].schema);
-      this.orm.loadCollection(schema);
-    }
-
-    this.orm.initialize(this.config, function(err, model){
-      callback(err, model);
-    });
+  initialize(resources, callback) {
+    throw new Error('Storage adapters must implement initialize(resources, callback)');
   }
+
 };
 
 export default Storage;
