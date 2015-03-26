@@ -11,7 +11,7 @@
   "scripts": {
     "test": "mocha",
     "build": "babel src --out-dir lib --source-maps",
-    "watch": "babel src --out-dir lib --watch --source-maps",
+    "watch": "npm run build -- --watch",
     "prepublish": "npm run build",
     "postinstall": "npm run build"
   },
