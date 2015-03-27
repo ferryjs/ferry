@@ -38,16 +38,12 @@ Adapters are Ferry modules that provide the interface between an engine and the 
 
 ### Development
 
-An sorta-easy way to work on the Ferry suite of packages is to clone all of the desired repositories into a top-level `ferryjs` directory, and then use the [symlink](https://www.npmjs.com/package/symlink) package to automatically `npm link` the local repositories.
+An easy way to work on the Ferry suite of packages is to clone all of the desired repositories into a top-level `ferryjs` directory, and then use the [symlink](https://www.npmjs.com/package/symlink) package to automatically `npm link` the local repositories.
 
-- `npm install -g symlink`
+- `npm install -g symlink` (at least v1.0.0)
 - `cd ferryjs`
-- `git clone https://github.com/ferryjs/ferry.git` (do this for all repositories)
+- `git clone https://github.com/ferryjs/ferry.git` (do this for all ferry repositories)
 - `git clone https://github.com/ferryjs/ferry-examples.git`
-- `symlink .`
-- `cd ferry-examples/express-swagger-disk`
-- `npm link ferry ferry-express ferry-swagger ferry-waterline`
+- `symlink ./ ferry-examples/` (and include any other directories that contain ferry projects)
 
 If the `symlink` and/or `npm link` steps error out, just re-run them.
-
-The last two steps should be unnecessary, but are required at this time; hopefully once these packages are published on NPM they will become obsolete.
