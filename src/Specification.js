@@ -30,6 +30,6 @@ class Specification {
     this.routes = this.source.routes;
   }
 
-};
+}
 
 export default Specification;

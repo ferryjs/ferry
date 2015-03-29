@@ -20,6 +20,6 @@ class Router {
     throw new Error('Router adapters must implement start(port, callback)');
   }
 
-};
+}
 
 export default Router;
