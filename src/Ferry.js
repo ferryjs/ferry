@@ -28,31 +28,38 @@ class Ferry {
 
     this.specification = config.specification;
     this.specification.ferry = this;
+    this.specification.initialize((err) => {
 
-    this.storage = config.storage;
-    this.storage.ferry = this;
+      if (err) console.error(err);
 
-    this.router = config.router;
-    this.router.ferry = this;
-    this.router.initialize(this.specification.basePath, this.specification.routes);
+      this.storage = config.storage;
+      this.storage.ferry = this;
+      this.storage.initialize(this.specification.resources, (err) => {
+
+        if (err) console.error(err);
+
+        this.router = config.router;
+        this.router.ferry = this;
+        this.router.initialize(this.specification.basePath, this.specification.routes, (err) => {
+
+          if (err) console.error(err);
+
+          if (typeof config.callback === 'function') {
+            config.callback();
+          } else {
+            this.start();
+          }
+
+        });
+
+      });
+
+    });
 
   }
 
   start(port = 3000, callback) {
-
-    let self = this;
-
-    this.storage.initialize(this.specification.resources, function(error) {
-
-      if (error) {
-        console.error(error);
-      }
-      else {
-        self.router.start(port, callback);
-      }
-
-    });
-
+    this.router.start(port, callback);
   }
 
 }

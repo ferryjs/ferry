@@ -4,21 +4,36 @@ import fs from 'fs';
 
 class Specification {
 
-  constructor(filename) {
-    this.filename = filename;
-    this.load();
-    this.parse();
-    this.process();
+  constructor(filepath) {
+    this.filepath = filepath;
   }
 
-  load() {
-    this.raw = fs.readFileSync(this.filename, 'UTF-8');
+  initialize(callback) {
+
+    let raw = fs.readFileSync(this.filepath, 'UTF-8');
+
+    this.parse(raw, () => {
+
+      this.process();
+
+      if (typeof callback === 'function') {
+        callback();
+      }
+
+    });
+
   }
 
-  parse() {
+  parse(raw, callback) {
     try {
-      this.source = JSON.parse(this.raw);
-    } catch (e) {
+
+      this.source = JSON.parse(raw);
+
+      if (typeof callback === 'function') {
+        callback();
+      }
+
+    } catch (err) {
       throw new Error('Specification source is not valid JSON');
     }
   }
