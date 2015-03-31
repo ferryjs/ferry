@@ -45,6 +45,15 @@ class Specification {
     this.routes = this.source.routes;
   }
 
+  getResourceSpec(resourceType, operation) {
+    // @todo Should this force the resourceType to lowercase?
+    return this.resources[resourceType.toLowerCase()];
+  }
+
+  validateResource(resourceType, resource, operation, callback) {
+    throw new Error('Specification adapters must implement validateResource(resourceType, resource, operation, callback)');
+  }
+
 }
 
 export default Specification;
