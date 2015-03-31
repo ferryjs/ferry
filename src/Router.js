@@ -8,8 +8,8 @@ class Router {
     this.app = null;
   }
 
-  route(action, resource) {
-    throw new Error('Router adapters must implement route(action, resource)');
+  route(action) {
+    throw new Error('Router adapters must implement route(action)');
   }
 
   initialize(basePath, routes, callback) {
